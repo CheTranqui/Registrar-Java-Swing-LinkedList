@@ -17,7 +17,7 @@ public class Student {
     public Student(String firstName,String lastName,int Id){
         this.firstName = firstName;
         this.lastName = lastName;
-        this.Id = Id;
+        this.Id = Id ;
     }
 
     public String getFirstName() {

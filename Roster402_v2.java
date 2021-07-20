@@ -26,7 +26,7 @@ public class Roster402_v2 {
     }
 
     public Roster402_v2(){
-        reg1.setRoster(this);
+        reg1.setRoster(this) ;
         GridBagConstraints c = new GridBagConstraints();
         // making label for new column: Roster
         JLabel rosterLabel = new JLabel("Roster: CIS 402");

@@ -77,7 +77,7 @@ public class Registrar implements ActionListener {
         sortByDropDown.addActionListener(this);
         panel.add(sortByDropDown, c);
 
-        createStudentLabels();
+        createStudentLabels() ;
 
         frame.add(panel, BorderLayout.CENTER);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -271,17 +271,17 @@ public class Registrar implements ActionListener {
 
     // initial load of data into students linkedlist
     private void LoadStudentsIntoList(){
-        students.add(new Student("Jonathan", "Calderon",25));
-        students.add(new Student("Ram", "Chapagai", 63));
-        students.add(new Student("Thane", "Cutler", 22));
-        students.add(new Student("Lucas", "Donahue", 63));
-        students.add(new Student("Andrew", "Lambert", 82));
-        students.add(new Student("Anthony", "Mays", 49));
-        students.add(new Student("David", "Moore", 12));
-        students.add(new Student("ShiQuise", "Moore", 74));
+        students.add(new Student("Andre", "Calderon",25));
+        students.add(new Student("Micah", "Chapagai", 63));
+        students.add(new Student("Chris", "Cutler", 22));
+        students.add(new Student("James", "Donahue", 63));
+        students.add(new Student("Ryan", "Lambert", 82));
+        students.add(new Student("Stephen", "Mays", 49));
+        students.add(new Student("Kasey", "Moore", 12));
+        students.add(new Student("Timothy", "Moore", 74));
         students.add(new Student("Chaz", "Peterson", 23));
-        students.add(new Student("Amy", "Schaeffer", 31));
-        students.add(new Student("Troy", "Streeter", 13));
+        students.add(new Student("Katrina", "Schaeffer", 31));
+        students.add(new Student("Silvia", "Streeter", 13));
     }
 
     public void setRoster(Roster402_v2 r){
