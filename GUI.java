@@ -9,7 +9,7 @@ import java.util.LinkedList;
 
 public class GUI {
     private JPanel panel = new JPanel();
-    private Dimension idealDimensions = new Dimension(750, 450);
+    private Dimension idealDimensions = new Dimension(750, 450); //frame dimensions
     GridBagConstraints c = new GridBagConstraints();
     public static Color labelFontColor = new Color(250, 230, 230);
     public static Color panelBackgroundColor = new Color(0, 30, 50);
@@ -81,15 +81,17 @@ public class GUI {
         c.weighty = 1;
         c.gridwidth = 1;
         c.gridheight = 2;
-        c.gridx = 0;
-        c.gridy = 1;
+        c.gridx = gridX;
+        c.gridy = gridY;
         c.insets = new Insets(5,0,0,0); // spacing between labels
-        // set starting position to Last Name (index 2 in the array)
+
         // since starting sort is by last name, this makes default selection and data presentation match
         dropDown.setSelectedIndex(2);
+
         dropDown.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
+                // onselect, sort both lists
                 reg.sortBy(reg.students, (String) dropDown.getSelectedItem());
                 reg.sortBy(roster.roster, (String) dropDown.getSelectedItem());
         }});
@@ -111,10 +113,10 @@ public class GUI {
         label.setBackground(panelBackgroundColor);
         label.setForeground(labelFontColor);
         label.setFont(verdanaPlain);
-        label.setOpaque(true);
-        String labelName;
+        label.setOpaque(true); // showing background so highlighting can be seen on hover
+        String labelName; // allows us to access label and update it later
         if (list == reg.students){
-            labelName = "students" + reg.getLabelName(labelGridY);  // allows us to access label and update it later
+            labelName = "students" + reg.getLabelName(labelGridY);
         }
         else{
             labelName = "roster" + reg.getLabelName(labelGridY);
@@ -158,6 +160,7 @@ public class GUI {
         panel.repaint();
     }
 
+    // on click will print current Roster to the console
     public void createPrintRosterButton() {
         JButton printRoster = new JButton("Print Roster");
         printRoster.setBackground(labelHighlightColor);
@@ -189,6 +192,7 @@ public class GUI {
         panel.repaint();
     }
 
+    // removes only the student labels.
     private void removeLabels(){
         Component[] p = panel.getComponents();  // array containing all panel components
         for (int l = p.length-1; l > 0; l--){
@@ -211,8 +215,10 @@ public class GUI {
         createStudentLabels(roster.roster,2,1);
     }
 
+    // upon sort, update student labels - no need to remove and recreate since we have the same
+    // quantity of labels once sort is completed.
     public void updateStudentLabels(LinkedList<Student> list){
-        // iterates through students in same manner as original creation
+        // determine which list is being updated
         String listName;
         if (list == reg.students){
             listName = "students";
@@ -220,6 +226,7 @@ public class GUI {
         else{
             listName = "roster";
         }
+        // iterates through students in same manner as original creation
         int labelGridY = 0;  // represents the GridY position of the resulting label
         for (Student s : list){
             labelGridY++;
@@ -277,6 +284,8 @@ public class GUI {
                                 validInput = true;
                             }
                         } catch (Exception exception) {
+                            // if not between proper numbers, remind user of requirement
+                            // and show prompt again.
                             errorMessage = "Input must be a number between 0 and " + reg.students.size() + ".\n";
                         }
                     }
@@ -293,6 +302,7 @@ public class GUI {
     }
 
     private void addToRoster(int quantity){
+        // swap a random index from reg.students to roster.roster quantity number of times
         for (int i = 0; i < quantity; i++) {
             int index = (int) (Math.floor(Math.random() * reg.students.size()));
             reg.swapStudent(reg.students, reg.students.get(index));
@@ -302,6 +312,7 @@ public class GUI {
         reg.sortBy(reg.students, sortingAttribute);
         reg.sortBy(roster.roster, sortingAttribute);
     }
+
     public void setRegistrar(Registrar r){
         reg = r;
     }

@@ -27,6 +27,7 @@ public class Roster402_v2 {
         setGUI(g);
         gui.setRoster(this);
         setRegistrar(gui.reg);
+
         gui.createTitleLabel("Roster: CIS 402",2,0,true);
         // populating roster with labels
         gui.createStudentLabels(roster,2,1);
