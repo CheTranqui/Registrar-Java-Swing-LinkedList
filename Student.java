@@ -1,8 +1,7 @@
 // Name:  Chaz Peterson
 // Purpose:  Assignment 6.1 - Create a Student class, store and present it as a sortable Linked List.
 // Date: 6/29/2021
-// Company: Bellevue University
-// File name: Registrar.java / Student.java / Roster402_v2.java
+// File name: Registrar.java / Student.java / Roster402_v2.java / GUI.java
 
 
 

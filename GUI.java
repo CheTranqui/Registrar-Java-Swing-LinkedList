@@ -1,3 +1,10 @@
+// Name:  Chaz Peterson
+// Purpose:  Assignment 9.1 - Allow user to add a particular number of students to a roster.
+//      Allow them to view the roster and close the program at will.
+// Date: 7/21/2021
+// File name: Registrar.java / Student.java / Roster402_v2.java / GUI.java
+
+//  GUI for Roster402_v2 / Registrar
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,10 +25,6 @@ public class GUI {
     public static Font verdanaBold = new Font("Verdana", Font.BOLD, 12);
     public Registrar reg;
     public Roster402_v2 roster;
-
-    public static void main(String[] args) {
-        new GUI();
-    }
 
     public GUI() {
         JFrame frame = createFrame();
