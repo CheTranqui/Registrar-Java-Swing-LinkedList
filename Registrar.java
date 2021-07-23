@@ -6,27 +6,13 @@
 import java.util.*;
 
 public class Registrar{
-    private Roster402_v2 myRoster;
+    private Roster402_v2 roster;
     private GUI gui;
     public LinkedList<Student> students = new LinkedList<>();
 
     public Registrar(GUI g){
         setGUI(g);
-        gui.setRegistrar(this);
-
         LoadStudentsIntoList();
-    // intro label - gives a title to the dropdown - top left
-        gui.createTitleLabel("Sort By:", 0,0, true);
-
-        // intro label for students' column - top right
-        gui.createTitleLabel("Available Students:", 1,0, true);
-
-// provide dropdown with options to sort by - under top left by 1
-        String[] choicesForDropDown = {"Student ID", "First Name", "Last Name"};
-        gui.createDropDown(choicesForDropDown, 0,1);
-
-        gui.createStudentLabels(students,1,1);
-
     }
 
     public String getLabelName(int labelGridY){
@@ -57,12 +43,12 @@ public class Registrar{
         for (Student s : list) {
             if (s.getId() == currentStudent.getId()) {
                 if (list == students) {
-                    myRoster.roster.add(s);
+                    roster.roster.add(s);
                     this.students.remove(s);
                     break;
                 } else {
                     this.students.add(s);
-                    myRoster.roster.remove(s);
+                    roster.roster.remove(s);
                     break;
                 }
             }
@@ -99,7 +85,7 @@ public class Registrar{
             gui.updateStudentLabels(students);
         }
         else {
-            gui.updateStudentLabels(myRoster.roster);
+            gui.updateStudentLabels(roster.roster);
         }
     }
     // supporting method to assist with sorting
@@ -126,7 +112,7 @@ public class Registrar{
     }
 
     public void setRoster(Roster402_v2 r){
-        myRoster = r;
+        roster = r;
     }
     public void setGUI(GUI g){
         gui = g;

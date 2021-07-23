@@ -11,9 +11,7 @@
 import java.util.LinkedList;
 
 public class Roster402_v2 {
-    private Registrar reg;
-    private GUI gui;
-
+    private String rosterName;
     public LinkedList<Student> roster = new LinkedList<>();
 
     public static void main(String[] args) {
@@ -21,39 +19,24 @@ public class Roster402_v2 {
     }
 
     public Roster402_v2(GUI g){
-        setGUI(g);
-        gui.setRoster(this);
-        setRegistrar(gui.reg);
-
-        gui.createTitleLabel("Roster: CIS 402",2,0,true);
-        // populating roster with labels
-        gui.createStudentLabels(roster,2,1);
-
-        // provide instructions on how to add/remove students to/from roster
-        String rosterInstructions = "<html><div style='text-align: center'>" +
-            "Click on a student<br>" +
-            "to assign/unassign<br>" +
-            "to/from the roster<br>" +
-            "or click below to<br>" +
-            "add a precise number<br>" +
-            "of students instead.</div></html>";
-
-        // add instructions to label and place it
-        gui.createRosterInstructionsLabel(rosterInstructions);
-
-        gui.createAddToRosterButton();
-
-        gui.createPrintRosterButton();
+        setRosterName("Roster: CIS 402");
     }
 
+    public String getRosterName(){
+        return rosterName;
+    }
 
-    public Roster402_v2 getRoster(){
-        return this;
+    private void setRosterName(String nameOfRoster){
+        this.rosterName = nameOfRoster;
     }
-    public void setRegistrar(Registrar r){
-        reg = r;
-    }
-    public void setGUI(GUI g){
-        gui = g;
+
+    public String getRosterInstructions(){
+        return "<html><div style='text-align: center'>" +
+                "Click on a student<br>" +
+                "to assign/unassign<br>" +
+                "to/from the roster<br>" +
+                "or click below to<br>" +
+                "add a precise number<br>" +
+                "of students instead.</div></html>";
     }
 }

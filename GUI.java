@@ -32,9 +32,31 @@ public class GUI {
         c.fill = GridBagConstraints.NORTH;
         frame.add(panel, BorderLayout.NORTH);
 
-        new Registrar(this);
+        reg = new Registrar(this);
         roster = new Roster402_v2(this);
         reg.setRoster(roster);
+
+        // two bold main labels for columns:
+        createTitleLabel("Sort By:", 0,0, true);
+        createTitleLabel("Available Students:", 1,0, true);
+
+        // dropdown for sorting purposes:
+        String[] choicesForDropDown = {"Student ID", "First Name", "Last Name"};
+        createDropDown(choicesForDropDown, 0,1);
+
+        // 3rd column title label:
+        createTitleLabel(roster.getRosterName(),2,0,true);
+        // instructions label for managing a roster:
+        createRosterInstructionsLabel(roster.getRosterInstructions());
+
+        // button to add students to roster
+        createAddToRosterButton();
+        // button to print current roster
+        createPrintRosterButton();
+
+        // iterate through the list and create relevant labels for each column
+        createStudentLabels(reg.students,1,1);
+        createStudentLabels(roster.roster,2,1);
 
         frame.pack();
         frame.setVisible(true);
@@ -314,6 +336,10 @@ public class GUI {
         String sortingAttribute = (String)((JComboBox) panel.getComponent(2)).getSelectedItem();
         reg.sortBy(reg.students, sortingAttribute);
         reg.sortBy(roster.roster, sortingAttribute);
+    }
+
+    public GUI getGUI(){
+        return this;
     }
 
     public void setRegistrar(Registrar r){
