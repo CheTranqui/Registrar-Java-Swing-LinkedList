@@ -124,7 +124,7 @@ public class GUI {
     }
 
     public void createStudentLabels(LinkedList<Student> list, int columnGridX, int startingGridY){
-        // all labels will be in GridX position 1.
+        // all labels will be in the same GridX position (i.e. same column)
         int gridY = startingGridY;
         for (Student s : list){
             createStudentLabel(list, s, columnGridX, gridY);

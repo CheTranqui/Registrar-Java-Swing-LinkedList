@@ -14,16 +14,16 @@ public class Student {
     // constructor requires definition of all three properties
     // Id is NOT auto-incremented, but a pre-determined value declared upon instantiation
     public Student(String firstName,String lastName,int Id){
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.Id = Id ;
+        setFirstName(firstName);
+        setLastName(lastName);
+        setId(Id);
     }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    private void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
@@ -31,7 +31,7 @@ public class Student {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    private void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
@@ -39,7 +39,7 @@ public class Student {
         return Id;
     }
 
-    public void setId(int id) {
+    private void setId(int id) {
         Id = id;
     }
 }
