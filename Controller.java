@@ -8,7 +8,12 @@
 //  Ask if the user would like to see their new roster to confirm additions.
 //  If yes, then display contents of the file, if no, end the program.
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.LinkedList;
+import java.util.Scanner;
+
+import static java.lang.Integer.parseInt;
 
 public class Controller {
     private static Registrar myRegistrar;
@@ -17,8 +22,29 @@ public class Controller {
 
     public static void main(String[] args) {
         setRoster(new Roster402_v2("CIS 402"));
-        setRegistrar(new Registrar());
+        setRegistrar(new Registrar(loadStudentList()));
         setGUI(new GUI(myRoster, myRegistrar));
+    }
+
+    private static LinkedList<Student> loadStudentList() {
+        LinkedList<Student> studentList = new LinkedList<>();
+        try {
+            // studentList.txt should be in the same folder as this program
+            File studentNameFile = new File("studentList.txt");
+            Scanner myReader = new Scanner(studentNameFile);
+            while (myReader.hasNextLine()) {
+                // split each line at the space. It's in the format of:
+                // id , firstName, lastName
+                String[] str = myReader.nextLine().split(" ");
+                Student s = new Student(str[1],str[2],parseInt(str[0]));
+                studentList.add(s);
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred while importing the student list.");
+            e.printStackTrace();
+        }
+        return studentList;
     }
 
     public static String getStudentText(Student s){
@@ -43,8 +69,8 @@ public class Controller {
         return "label" + labelGridY;
     }
 
-    // removes student from either the roster or the students linkedlist
-    // adds them to the opposite linkedlist
+    // removes student from either the roster or the students linkedList
+    // adds them to the opposite linkedList
     public static void swapStudent(LinkedList<Student> list, Student currentStudent){
         for (Student s : list) {
             if (s.getId() == currentStudent.getId()) {
@@ -87,13 +113,13 @@ public class Controller {
                 }
             }
         }
-        if (list == myRegistrar.students) {
-            myGUI.updateStudentLabels(myRegistrar.students);
-        }
-        else {
-            myGUI.updateStudentLabels(myRoster.roster);
-        }
     }
+
+    public static void updateLabels(){
+            myGUI.updateStudentLabels(myRegistrar.students);
+            myGUI.updateStudentLabels(myRoster.roster);
+    }
+
     // supporting method to assist with sorting
     private static void move(LinkedList<Student> list, int studentIndex) {
 // swaps the two entries in Students and returns the result

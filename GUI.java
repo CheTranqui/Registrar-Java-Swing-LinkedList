@@ -118,6 +118,7 @@ public class GUI {
                 // onselect, sort both lists
                 Controller.sortBy(registrar.students, (String) dropDown.getSelectedItem());
                 Controller.sortBy(roster.roster, (String) dropDown.getSelectedItem());
+                Controller.updateLabels();
         }});
         panel.add(dropDown, c);
     }
@@ -159,6 +160,7 @@ public class GUI {
                 String sortingAttribute = (String)((JComboBox) panel.getComponent(2)).getSelectedItem();
                 Controller.sortBy(registrar.students, sortingAttribute);
                 Controller.sortBy(roster.roster, sortingAttribute);
+                Controller.updateLabels();
             }
             // highlight label on mouseover
             @Override
@@ -335,6 +337,7 @@ public class GUI {
         String sortingAttribute = (String)((JComboBox) panel.getComponent(2)).getSelectedItem();
         Controller.sortBy(registrar.students, sortingAttribute);
         Controller.sortBy(roster.roster, sortingAttribute);
+        Controller.updateLabels();
     }
 
     public GUI getGUI(){
