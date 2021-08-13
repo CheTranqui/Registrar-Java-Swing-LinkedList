@@ -2,7 +2,7 @@
 // Purpose:  Assignment 9.1 - Allow user to add a particular number of students to a roster.
 //      Allow them to view the roster and close the program at will.
 // Date: 7/21/2021
-// File name: Registrar.java / Student.java / Roster402_v2.java / GUI.java
+// File name: Registrar.java / Student.java / Roster402_v2.java / GUI.java / Controller.java
 
 //  Allow the user to control the number of students added to the roster.
 //  Ask if the user would like to see their new roster to confirm additions.
@@ -14,12 +14,8 @@ public class Roster402_v2 {
     private String rosterName;
     public LinkedList<Student> roster = new LinkedList<>();
 
-    public static void main(String[] args) {
-        new GUI();
-    }
-
-    public Roster402_v2(GUI g){
-        setRosterName("Roster: CIS 402");
+    public Roster402_v2(String nameOfRoster){
+        setRosterName(nameOfRoster);
     }
 
     public String getRosterName(){
@@ -38,5 +34,9 @@ public class Roster402_v2 {
                 "or click below to<br>" +
                 "add a precise number<br>" +
                 "of students instead.</div></html>";
+    }
+
+    public Roster402_v2 getRoster(){
+        return this;
     }
 }

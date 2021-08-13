@@ -2,28 +2,29 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 class RegistrarTest {
-    Registrar reg = new Registrar(new GUI());
+    Registrar registrar = new Registrar();
 
     @Test
     void sortByFirstName() {
-        reg.sortBy(reg.students,"firstName");
-        assertEquals("Andre", reg.students.getFirst().getFirstName());
+        Controller.sortBy(registrar.students,"firstName");
+        assertEquals("Andre", registrar.students.getFirst().getFirstName());
     }
 
     @Test
     void sortByLastName() {
-        reg.sortBy(reg.students,"lastName");
-        assertEquals("Streeter", reg.students.getLast().getLastName());
+        Controller.sortBy(registrar.students,"lastName");
+        assertEquals("Streeter", registrar.students.getLast().getLastName());
     }
 
     @Test
     void sortById() {
-        reg.sortBy(reg.students,"Student ID");
-        assertEquals(12, reg.students.get(0).getId());
+        Controller.sortBy(registrar.students,"Student ID");
+        assertEquals(12, registrar.students.get(0).getId());
     }
 
     @Test
     void getStudentById(){
-        assertEquals("Kasey",(reg.getStudent(12, reg.students)).getFirstName());
+        assertEquals("Kasey",
+                (Controller.getStudent(12, registrar.students)).getFirstName());
     }
 }

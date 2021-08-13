@@ -23,18 +23,17 @@ public class GUI {
     public static Color labelHighlightColor = new Color(30, 70, 90);
     public static Font verdanaPlain = new Font("Verdana", Font.PLAIN, 12);
     public static Font verdanaBold = new Font("Verdana", Font.BOLD, 12);
-    public Registrar reg;
+    public Registrar registrar;
     public Roster402_v2 roster;
 
-    public GUI() {
+    public GUI(Roster402_v2 myRoster, Registrar myRegistrar) {
+        setRegistrar(myRegistrar);
+        setRoster(myRoster);
+
         JFrame frame = createFrame();
         panel = createPanel();
         c.fill = GridBagConstraints.NORTH;
         frame.add(panel, BorderLayout.NORTH);
-
-        reg = new Registrar(this);
-        roster = new Roster402_v2(this);
-        reg.setRoster(roster);
 
         // two bold main labels for columns:
         createTitleLabel("Sort By:", 0,0, true);
@@ -55,7 +54,7 @@ public class GUI {
         createPrintRosterButton();
 
         // iterate through the list and create relevant labels for each column
-        createStudentLabels(reg.students,1,1);
+        createStudentLabels(registrar.students,1,1);
         createStudentLabels(roster.roster,2,1);
 
         frame.pack();
@@ -117,8 +116,8 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // onselect, sort both lists
-                reg.sortBy(reg.students, (String) dropDown.getSelectedItem());
-                reg.sortBy(roster.roster, (String) dropDown.getSelectedItem());
+                Controller.sortBy(registrar.students, (String) dropDown.getSelectedItem());
+                Controller.sortBy(roster.roster, (String) dropDown.getSelectedItem());
         }});
         panel.add(dropDown, c);
     }
@@ -133,18 +132,18 @@ public class GUI {
     }
 
     private void createStudentLabel(LinkedList<Student> list, Student s, int gridX, int labelGridY){
-        String studentText = reg.getStudentText(s);
+        String studentText = Controller.getStudentText(s);
         JLabel label = new JLabel(studentText);
         label.setBackground(panelBackgroundColor);
         label.setForeground(labelFontColor);
         label.setFont(verdanaPlain);
         label.setOpaque(true); // showing background so highlighting can be seen on hover
         String labelName; // allows us to access label and update it later
-        if (list == reg.students){
-            labelName = "students" + reg.getLabelName(labelGridY);
+        if (list == registrar.students){
+            labelName = "students" + Controller.getLabelName(labelGridY);
         }
         else{
-            labelName = "roster" + reg.getLabelName(labelGridY);
+            labelName = "roster" + Controller.getLabelName(labelGridY);
         }
 
         label.setName(labelName);
@@ -154,12 +153,12 @@ public class GUI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int id = Integer.parseInt((label.getText().split(" "))[1]);
-                Student myStudent = reg.getStudent(id, list);
-                reg.swapStudent(list, myStudent);
+                Student myStudent = Controller.getStudent(id, list);
+                Controller.swapStudent(list, myStudent);
                 reCreateStudentLabels();
                 String sortingAttribute = (String)((JComboBox) panel.getComponent(2)).getSelectedItem();
-                reg.sortBy(reg.students, sortingAttribute);
-                reg.sortBy(roster.roster, sortingAttribute);
+                Controller.sortBy(registrar.students, sortingAttribute);
+                Controller.sortBy(roster.roster, sortingAttribute);
             }
             // highlight label on mouseover
             @Override
@@ -193,13 +192,13 @@ public class GUI {
         printRoster.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("\nCurrent Roster for CIS 402:\n");
+                System.out.println("\nCurrent Roster for " + roster.getRosterName() + ":\n");
                 if (roster.roster.size() == 0) {
-                    System.out.println("\tNo students are currently signed up for CIS 402.");
+                    System.out.println("\tNo students are currently signed up for " + roster.getRosterName() + ".");
                 } else {
                     int count = 1;
                     for (Student s : roster.roster) {
-                        System.out.println("\t" + count + ".  " + reg.getStudentText(s));
+                        System.out.println("\t" + count + ".  " + Controller.getStudentText(s));
                         count++;
                     }
                 }
@@ -236,7 +235,7 @@ public class GUI {
 
     public void reCreateStudentLabels(){
         removeLabels();
-        createStudentLabels(reg.students, 1,1);
+        createStudentLabels(registrar.students, 1,1);
         createStudentLabels(roster.roster,2,1);
     }
 
@@ -245,7 +244,7 @@ public class GUI {
     public void updateStudentLabels(LinkedList<Student> list){
         // determine which list is being updated
         String listName;
-        if (list == reg.students){
+        if (list == registrar.students){
             listName = "students";
         }
         else{
@@ -255,7 +254,7 @@ public class GUI {
         int labelGridY = 0;  // represents the GridY position of the resulting label
         for (Student s : list){
             labelGridY++;
-            updateLabel(s, listName + reg.getLabelName(labelGridY));
+            updateLabel(s, listName + Controller.getLabelName(labelGridY));
         }
     }
     // supports "updateStudentLabels"
@@ -263,7 +262,7 @@ public class GUI {
         Component[] p = panel.getComponents();  // array containing all panel components
         for (int l = 0; l < p.length; l++){
             if (p[l].getName() != null && p[l].getName().equals(labelName)){  // locate this label in particular
-                ((JLabel) p[l]).setText(reg.getStudentText(s));  // update its text
+                ((JLabel) p[l]).setText(Controller.getStudentText(s));  // update its text
             }
         }
     }
@@ -295,7 +294,7 @@ public class GUI {
                 String errorMessage = "";
                 do {
                     String input = JOptionPane.showInputDialog(null, errorMessage + "How many students would you" +
-                            " like to add to the roster? (0 - " + reg.students.size() + ")");
+                            " like to add to the roster? (0 - " + registrar.students.size() + ")");
                     // allow for cancel/x/no input
                     if (input == null){
                         validInput = true;
@@ -304,14 +303,14 @@ public class GUI {
                     else {
                         try {
                             int quantity = Integer.parseInt(input);
-                            if (quantity >= 0 && quantity <= reg.students.size()) {
+                            if (quantity >= 0 && quantity <= registrar.students.size()) {
                                 addToRoster(quantity);
                                 validInput = true;
                             }
                         } catch (Exception exception) {
                             // if not between proper numbers, remind user of requirement
                             // and show prompt again.
-                            errorMessage = "Input must be a number between 0 and " + reg.students.size() + ".\n";
+                            errorMessage = "Input must be a number between 0 and " + registrar.students.size() + ".\n";
                         }
                     }
                 }while (!validInput);
@@ -329,13 +328,13 @@ public class GUI {
     private void addToRoster(int quantity){
         // swap a random index from reg.students to roster.roster quantity number of times
         for (int i = 0; i < quantity; i++) {
-            int index = (int) (Math.floor(Math.random() * reg.students.size()));
-            reg.swapStudent(reg.students, reg.students.get(index));
+            int index = (int) (Math.floor(Math.random() * registrar.students.size()));
+            Controller.swapStudent(registrar.students, registrar.students.get(index));
         }
         reCreateStudentLabels();
         String sortingAttribute = (String)((JComboBox) panel.getComponent(2)).getSelectedItem();
-        reg.sortBy(reg.students, sortingAttribute);
-        reg.sortBy(roster.roster, sortingAttribute);
+        Controller.sortBy(registrar.students, sortingAttribute);
+        Controller.sortBy(roster.roster, sortingAttribute);
     }
 
     public GUI getGUI(){
@@ -343,7 +342,7 @@ public class GUI {
     }
 
     public void setRegistrar(Registrar r){
-        reg = r;
+        registrar = r;
     }
     public void setRoster(Roster402_v2 r){
         roster = r;
